@@ -53,7 +53,53 @@ public class Main {
             return -1;
         }
     }
+    public static int permutation(int[]arrayA){
 
+        if(arrayA.length==0){
+            return 0;
+        }
+
+        if(arrayA.length==1){
+            return 1;
+        }
+        Arrays.sort(arrayA);
+        for (int i=0;i<arrayA.length;i++) {
+            int value=i+1;
+            if(value!=arrayA[i]){
+                return 0;
+            }
+        }
+        return 1;
+
+    }
+
+    public int distinct(int[] A) {
+        int[] distinct= Arrays.stream(A).distinct().toArray();
+
+        return distinct.length;
+    }
+
+    public int solution(int[] A) {
+        int N = A.length;
+        boolean[] present = new boolean[N + 1]; // Tracks numbers between 1 and N
+
+        // Mark numbers that are present in the array
+        for (int num : A) {
+            if (num > 0 && num <= N) {
+                present[num] = true;
+            }
+        }
+
+        // Find the first number which is not present
+        for (int i = 1; i <= N; i++) {
+            if (!present[i]) {
+                return i; // This is the smallest missing positive integer
+            }
+        }
+
+        // If all numbers from 1 to N are present, the missing integer is N+1
+        return N + 1;
+    }
 
     public static int missingInt(int[]arrayA){
 
