@@ -1,7 +1,4 @@
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.OptionalInt;
+import java.util.*;
 import java.util.stream.IntStream;
 
 public class Main {
@@ -10,6 +7,112 @@ public class Main {
         System.out.println("frogJump "+frogJump(0,200,30));
         System.out.println("missingInt "+missingInt(new int[]{1,3,4,7,6, 2, 5}));
         System.out.println("findIntArray "+findElement(2,new int[]{2,5,1,3,4,7,6, 2, 5}));
+    }
+
+    public int stack(String S){
+            Stack<Character> stack = new Stack<>();
+            for (char ch : S.toCharArray()) {
+                switch (ch) {
+                    case '(':
+                    case '{':
+                    case '[':
+                        stack.push(ch);
+                        break;
+                    case ')':
+                        if (stack.isEmpty() || stack.pop() != '(') {
+                            return 0;
+                        }
+                        break;
+                    case '}':
+                        if (stack.isEmpty() || stack.pop() != '{') {
+                            return 0;
+                        }
+                        break;
+                    case ']':
+                        if (stack.isEmpty() || stack.pop() != '[') {
+                            return 0;
+                        }
+                        break;
+                    default:
+                        // Invalid character (although not expected based on problem constraints)
+                        return 0;
+                }
+            }
+            return stack.isEmpty() ? 1 : 0;
+    }
+
+
+    public int intersect(int[] A) {
+        int N = A.length;
+
+        if (N < 2) {
+            return 0; // Less than 2 discs means no pairs can intersect
+        }
+
+        // Create an array of events
+        int[][] events = new int[2 * N][2];
+        for (int i = 0; i < N; i++) {
+            events[2 * i] = new int[]{i - A[i], 1};  // Start of disc i
+            events[2 * i + 1] = new int[]{i + A[i], -1}; // End of disc i
+        }
+
+        // Sort events: first by position, then by type (-1 before +1 for same positions)
+        Arrays.sort(events, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] e1, int[] e2) {
+                if (e1[0] == e2[0]) {
+                    return Integer.compare(e1[1], e2[1]);
+                }
+                return Integer.compare(e1[0], e2[0]);
+            }
+        });
+
+        int activeDiscs = 0;
+        long intersectingPairs = 0;
+        LinkedList<Integer> activeDiscIndices = new LinkedList<>();
+
+        // Sweep line algorithm
+        for (int[] event : events) {
+            if (event[1] == 1) { // Start of a disc
+                for (int i = 0; i < activeDiscIndices.size(); i++) {
+                    intersectingPairs += activeDiscs - i;
+                }
+                activeDiscIndices.add(event[0]);
+                activeDiscs++;
+            } else { // End of a disc
+                activeDiscIndices.remove((Integer) event[0]);
+                activeDiscs--;
+            }
+        }
+
+        if (intersectingPairs > 10_000_000) {
+            return -1;
+        }
+
+        return (int) intersectingPairs;
+    }
+
+    public static int triagle(int[] A){
+        int N = A.length;
+
+        // If there are fewer than 3 elements, no triplet can be formed
+        if (N < 3) {
+            return 0;
+        }
+
+        // Sort the array
+        Arrays.sort(A);
+
+        // Check each triplet in the sorted array
+        for (int i = 0; i < N - 2; i++) {
+            // Check the triangle condition
+            if ((long)A[i] + A[i + 1] > A[i + 2]) {
+                return 1;
+            }
+        }
+
+        // If no valid triplet found
+        return 0;
     }
 
     public static int findElement(int X, int[] A){
