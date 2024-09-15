@@ -1,9 +1,101 @@
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.OptionalInt;
+import java.util.stream.IntStream;
 
 public class Main {
     public static void main(String[] args) {
         System.out.println("OddOccurrencesInArray "+OddOccurrencesInArray(new int[]{1, 2, 2}));
         System.out.println("frogJump "+frogJump(0,200,30));
+        System.out.println("missingInt "+missingInt(new int[]{1,3,4,7,6, 2, 5}));
+        System.out.println("findIntArray "+findElement(2,new int[]{2,5,1,3,4,7,6, 2, 5}));
+    }
+
+    public static int findElement(int X, int[] A){
+        if (A == null || A.length == 0) {
+            return -1;  // Handle edge case if array is empty
+        }
+
+        // Create a boolean array to track positions from 1 to X
+        boolean[] positions = new boolean[X + 1];
+        int covered = 0;  // Count of positions covered by leaves
+
+        // Iterate over the array A
+        for (int i = 0; i < A.length; i++) {
+            int pos = A[i];
+
+            // Ensure the position is within the valid range (1 to X)
+            if (pos >= 1 && pos <= X && !positions[pos]) {
+                positions[pos] = true;
+                covered++;
+
+                // If all positions from 1 to X are covered, return the current time (i)
+                if (covered == X) {
+                    return i;
+                }
+            }
+        }
+
+        // If we finish the loop and not all positions are covered, return -1
+        return -1;
+    }
+
+    public static int findIntArray(int X, int[] A){
+        OptionalInt index = IntStream.range(0, A.length)
+                .filter(i -> A[i] == X)
+                .findFirst();
+
+        // Check if the value X was found in the array
+        if (index.isPresent()) {
+            return index.getAsInt();
+        } else {
+            return -1;
+        }
+    }
+
+
+    public static int missingInt(int[]arrayA){
+
+        if(arrayA.length==0){
+            return 0;
+        }
+
+        if(arrayA.length==1){
+            return arrayA[0];
+        }
+        Arrays.sort(arrayA);
+        for (int i=0;i<arrayA.length;i++) {
+            int value=i+1;
+            if(value!=arrayA[i]){
+                return value;
+            }
+        }
+        return arrayA[arrayA.length-1]+1;
+
+    }
+
+    public static int missingIntWithInitial(int[]arrayA){
+
+        if(arrayA.length==0){
+            return 0;
+        }
+
+        if(arrayA.length==1){
+            return arrayA[0];
+        }
+
+        Arrays.sort(arrayA);
+        System.out.println("frogJump "+Arrays.toString(arrayA));
+        int innitial=arrayA[0];
+        for (int num : arrayA) {
+            if(num!=innitial){
+                return innitial;
+            }
+            innitial=num+1;
+        }
+        return 0;
+
     }
 
     public static int frogJump(int x,int y, int d){
