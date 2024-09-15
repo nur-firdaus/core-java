@@ -1,9 +1,27 @@
+import java.util.HashSet;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        System.out.println("OddOccurrencesInArray "+OddOccurrencesInArray(new int[]{1,1, 2, 2}));
     }
 
+    public static int OddOccurrencesInArray(int[] arrayA){
+        try {
+            HashSet<Integer> uniqueValue = new HashSet<>();
 
+            for (int num : arrayA) {
+                if (uniqueValue.contains(num)) {
+                    uniqueValue.remove(num);
+                } else {
+                    uniqueValue.add(num);
+                }
+            }
+
+            return uniqueValue.iterator().next();
+        }catch (Exception e){
+            return 0;
+        }
+    }
 
     public int[] CyclicRotation(int[] A, int K) {
         int arrayLength = A.length;
