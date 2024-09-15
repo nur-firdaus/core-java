@@ -2,7 +2,27 @@ import java.util.HashSet;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("OddOccurrencesInArray "+OddOccurrencesInArray(new int[]{1,1, 2, 2}));
+        System.out.println("OddOccurrencesInArray "+OddOccurrencesInArray(new int[]{1, 2, 2}));
+        System.out.println("frogJump "+frogJump(0,200,30));
+    }
+
+    public static int frogJump(int x,int y, int d){
+        if(x>=y){
+            return 0;
+        }
+
+        //return (int) Math.ceil((double) (y - x) / d); esieast ways
+
+        boolean jumping = true;
+        int countJump=0;
+        while(true){
+            x=x+d;
+            if(x>=y){
+                countJump++;
+                return countJump;
+            }
+            countJump++;
+        }
     }
 
     public static int OddOccurrencesInArray(int[] arrayA){
