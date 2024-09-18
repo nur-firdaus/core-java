@@ -9,6 +9,34 @@ public class Main {
         System.out.println("findIntArray "+findElement(2,new int[]{2,5,1,3,4,7,6, 2, 5}));
     }
 
+    public int fishAlive(int[] A, int[] B) {
+        Stack<Integer> stack = new Stack<>();
+        int aliveFish = 0;
+
+        for (int i = 0; i < A.length; i++) {
+            if (B[i] == 1) {
+                // Fish moving downstream, push its size onto the stack
+                stack.push(A[i]);
+            } else {
+                // Fish moving upstream
+                while (!stack.isEmpty() && stack.peek() < A[i]) {
+                    // The current fish eats the fish on top of the stack
+                    stack.pop();
+                }
+                if (stack.isEmpty() || stack.peek() < A[i]) {
+                    // The current fish survives if the stack is empty or the fish on the stack is smaller
+                    aliveFish++;
+                }
+            }
+        }
+
+        // The stack contains all downstream fish that survived
+        // Count the surviving downstream fish
+        aliveFish += stack.size();
+
+        return aliveFish;
+    }
+
     public int stack(String S){
             Stack<Character> stack = new Stack<>();
             for (char ch : S.toCharArray()) {
