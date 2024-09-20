@@ -3,10 +3,46 @@ import java.util.stream.IntStream;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("OddOccurrencesInArray "+OddOccurrencesInArray(new int[]{1, 2, 2}));
-        System.out.println("frogJump "+frogJump(0,200,30));
-        System.out.println("missingInt "+missingInt(new int[]{1,3,4,7,6, 2, 5}));
-        System.out.println("findIntArray "+findElement(2,new int[]{2,5,1,3,4,7,6, 2, 5}));
+        int[] result = solution("BAABA", new int[]{2, 4, 1, 1, 2});
+        System.out.println("OddOccurrencesInArray: " + Arrays.toString(result));
+//2,4
+    }
+
+
+    public static int[] solution(String R, int[] V) {
+
+        int initValA=0;
+        int initValB=0;
+
+        char[] recipient = R.toCharArray();
+
+        if(recipient.length<=2){
+            int[] answer = {V[0],0};
+            return answer;
+        }
+        if(recipient[0]=='A'){
+            initValB=V[0];
+            initValA=V[1];
+        }else{
+            initValA=V[0];
+            initValB=V[1];
+        }
+
+        System.out.println("init: " + initValB+initValA);
+
+        for(int i=0;i<recipient.length;i++){
+            if(recipient[i]=='B'){
+                initValA=initValA-V[i];
+                initValB=initValB+V[i];
+            }
+            else{
+                initValA=initValA+V[i];
+                initValB=initValB-V[i];
+            }
+            System.out.println(i+" init: " + initValA+"|"+initValB);
+        }
+
+        return new int[]{initValA,initValB};
     }
 
     public int fishAlive(int[] A, int[] B) {
