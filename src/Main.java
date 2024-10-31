@@ -3,10 +3,32 @@ import java.util.stream.IntStream;
 
 public class Main {
     public static void main(String[] args) {
-        int[] result = solution("BAABA", new int[]{2, 4, 1, 1, 2});
-        System.out.println("OddOccurrencesInArray: " + Arrays.toString(result));
-//2,4
+        String s = "barfoothefoobarman";
+        String[] words = {"foo", "bar"};
+
+
+
+
+        for (String word:words) {
+            
+        }
     }
+
+    public static int concatString(String word,String[] words){
+        boolean isFalse=false;
+
+        StringBuilder w= new StringBuilder();
+
+        for (String wo:words) {
+            w.append(wo);
+        }
+        int index = word.indexOf(String.valueOf(w));
+        if(word.contains(w )){
+            System.out.println("contains"+index);
+        }
+        return index;
+    }
+
 
 
     public static int[] solution(String R, int[] V) {
